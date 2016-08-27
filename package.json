@@ -1,7 +1,7 @@
 {
-  "name": "fed01_backbone_routing",
+  "name": "spotifinder",
   "version": "1.0.0",
-  "description": "Backbone routing",
+  "description": "Spotifinder Artist & Genre explorer",
   "main": "main.js",
   "scripts": {
     "babel:build:js": "babel src --out-file dist/bundle.js",
@@ -9,7 +9,7 @@
     "webpack:build:js": "webpack",
     "webpack:watch:js": "webpack --watch"
   },
-  "author": "moora@hr.nl",
+  "author": "0861444@hr.nl",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.8.0",
