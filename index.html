@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Backbone Routing</title>
+    <link type="text/css" rel="stylesheet" href="/spotifinder/css/style.css"/>
+</head>
+<body>
+<div id="container">
+    <div id="team-links">
+        <a href="#" data-query="Adele" data-type="Artist">Adele</a>
+        <form action="">
+            <input type="submit">
+        </form>
+    </div>
+
+    <div id="team-matches">
+        <span class="start-message">Choose a team on the left!</span>
+
+        <script id="template-error" type="text/template">
+            <span class="error"><%= message %></span>
+        </script>
+        <script id="template-matches" type="text/template">
+            <% _.each(artists, function(artist){ %>
+            <div><%= artist.id %></div>
+            <% }); %>
+        </script>
+    </div>
+</div>
+<script src="/spotifinder/dist/bundle.js" type="text/javascript"></script>
+</body>
+</html>
