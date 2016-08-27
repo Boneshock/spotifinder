@@ -1,23 +1,28 @@
 import {View} from 'backbone';
-import MatchesRouter from '../routers/MatchesRouter';
+import _ from 'underscore';
+import ArtistsSearchRouter from '../routers/ArtistsSearchRouter';
 
 /**
- * Object representing the TeamLinks element
+ * Object representing the ArtistForm element
  *
  * @constructor
  */
-const TeamLinks = View.extend({
+const ArtistForm = View.extend({
     router: null,
 
     events: {
         'click a': 'clickHandler',
-        'submit form': 'submitHandler'
+        'change input#query': 'submitHandler',
+        'submit form': 'submitHandler',
+        'keyup input#query': 'submitHandler'
     },
 
     initialize: function ()
     {
-        //Initialize the matches router to activate navigation
-        this.router = new MatchesRouter();
+        _.bindAll(this, "submitHandler");
+
+        //Initialize the search router to activate navigation
+        this.router = new ArtistsSearchRouter();
     },
 
     /**
@@ -38,8 +43,13 @@ const TeamLinks = View.extend({
     },
     submitHandler: function(e) {
         e.preventDefault();
-        console.log("form was submitted");
+
+        let queryValue = document.getElementById("query").value;
+        let url = 'search/' + 'artist' + '/' + queryValue;
+
+        //Use trigger & replace to update URL and make the router listen to change
+        this.router.navigate(url, {trigger: true, replace: true});
     }
 });
 
-export default TeamLinks;
+export default ArtistForm;

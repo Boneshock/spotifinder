@@ -1,8 +1,10 @@
 import _ from 'underscore';
 import {Events} from 'backbone';
-import Matches from './collections/Matches';
-import TeamLinks from './views/TeamLinks';
-import TeamMatches from './views/TeamMatches';
+import SearchCollection from './collections/SearchCollection';
+import ArtistCollection from './collections/ArtistCollection';
+import ArtistForm from './views/ArtistForm';
+import ArtistsSearch from './views/ArtistsSearch';
+import ArtistView from './views/Artist'
 
 (function ()
 {
@@ -19,9 +21,12 @@ import TeamMatches from './views/TeamMatches';
     {
         setGlobalVariables();
 
-        let matchesCollection = new Matches();
-        new TeamLinks({el: "#team-links"});
-        new TeamMatches({el: "#team-matches", collection: matchesCollection});
+        let searchCollection = new SearchCollection();
+        let artistCollection = new ArtistCollection();
+
+        new ArtistForm({el: "#search"});
+        new ArtistsSearch({el: "#search-results", collection: searchCollection});
+        new ArtistView({el: "#artist", collection: artistCollection});
 
         Backbone.history.start({pushState: true, root: '/spotifinder/'});
     };

@@ -5,7 +5,7 @@ import {Model} from 'backbone';
  *
  * @constructor
  */
-const Match = Model.extend({
+const Artist = Model.extend({
 });
 
-export default Match;
+export default Artist;
