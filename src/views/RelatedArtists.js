@@ -1,6 +1,5 @@
 import {View} from 'backbone';
 import _ from 'underscore';
-import $ from 'jquery';
 import ArtistsSearchRouter from '../routers/ArtistsSearchRouter';
 
 /**
@@ -8,23 +7,21 @@ import ArtistsSearchRouter from '../routers/ArtistsSearchRouter';
  *
  * @constructor
  */
-const ArtistsSearch = View.extend({
-    templateMatches: '',
-    templateError: '',
+const TopTracks = View.extend({
+    templateTopTracks: '',
     router: null,
 
     events: {
-        'click div.artist': 'artistClickHandler',
+        'click .artist': 'clickHandler',
     },
 
     initialize: function ()
     {
         //Set templates to use later on
-        this.templateMatches = _.template(this.$('#template-matches').html());
-        this.templateError = _.template(this.$('#template-error').html());
+        this.templateTopTracks = _.template(this.$('#template-related').html());
 
         //Listen to global events for change of new club
-        App.events.on('newSearch', this.loadSearchResults, this);
+        App.events.on('getArtist', this.loadSearchResults, this);
 
         //Initialize the search router to activate navigation
         this.router = new ArtistsSearchRouter();
@@ -38,25 +35,22 @@ const ArtistsSearch = View.extend({
     loadSearchResults: function (data)
     {
         this.collection.fetch({
-            success: (collection) => this.loadSearchSuccessHandler(collection),
-            error: (collection, response) => this.loadSearchErrorHandler(collection, response),
-            data: {
-                type: data.type,
-                q: data.query
-            }
+            success: (collection) => this.loadRelatedArtistsSuccessHandler(collection),
+            error: (collection, response) => this.loadRelatedArtistsErrorHandler(collection, response),
+            url: this.collection.url + data.id + '/related-artists'
         });
     },
 
     /**
-     * Success Handler will add HTML of searches to this $el
+     * Success Handler will add HTML of Related Artist Search to this $el
      *
      * @param collection
      */
-    loadSearchSuccessHandler: function (collection)
+    loadRelatedArtistsSuccessHandler: function (collection)
     {
         let data = Object.create(collection.toJSON());
-        let artists = data[0].artists.items;
-        this.$el.html(this.templateMatches({artists: artists}));
+        let artists = data[0].artists;
+        this.$el.html(this.templateTopTracks({artists: artists}));
     },
 
     /**
@@ -65,22 +59,20 @@ const ArtistsSearch = View.extend({
      * @param collection
      * @param response
      */
-    loadSearchErrorHandler: function (collection, response)
+    loadRelatedArtistsErrorHandler: function (collection, response)
     {
         this.$el.html(this.templateError({message: response.responseJSON.error}));
     },
 
+
     /**
-     * Click handler for links, retrieve data attributes and navigate router
+     * Click handler for related-artists, retrieve data attributes and navigate router
      *
      * @param e
      */
-    artistClickHandler: function(e) {
+    clickHandler: function (e)
+    {
         e.preventDefault();
-
-        //Get result element and hide it, because we don't need it now
-        let resultshtml = $('#search-results');
-        resultshtml.hide();
 
         //Get target the retrieve data properties
         let target = e.currentTarget;
@@ -88,7 +80,7 @@ const ArtistsSearch = View.extend({
 
         //Use trigger & replace to update URL and make the router listen to change
         this.router.navigate(url, {trigger: true, replace: true});
-    }
+    },
 });
 
-export default ArtistsSearch;
+export default TopTracks;

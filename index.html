@@ -6,33 +6,66 @@
     <link type="text/css" rel="stylesheet" href="/spotifinder/css/style.css"/>
 </head>
 <body>
-<div id="container">
-    <div id="search">
-        <label for="query">Artist</label><input type="text" id="query">
-    </div>
-
-    <div id="search-results">
-        <span class="start-message">Choose a team on the left!</span>
-
-        <script id="template-error" type="text/template">
-            <span class="error"><%= message %></span>
-        </script>
-        <script id="template-matches" type="text/template">
-            <% _.each(artists, function(artist){ %>
-            <div class="artist" data-id="<%= artist.id %>"><%= artist.name %></div>
-            <% }); %>
-        </script>
-    </div>
-
-    <div id="artist">
-        <script id="template-artist" type="text/template">
-            <div class="artist-info" data-id="<%= artist.id %>">
-                <img src="<%= artist.images.pop().url %>" alt="" class="artist-img">
-                <div class="artist-name"><%= artist.name %></div>
+<main class="content">
+    <div id="container">
+        <div id="search">
+            <div class="searchbox">
+                <h4><label for="query" class="label">Zoek een artiest</label></h4>
+                <input type="text" id="query" class="input">
             </div>
-        </script>
+        </div>
+
+        <div id="search-results">
+            <script id="template-error" type="text/template">
+                <span class="error"><%= message %></span>
+            </script>
+            <script id="template-matches" type="text/template">
+                <div class="artists">
+                    <% _.each(artists, function(artist){ %>
+                    <div class="artist" data-id="<%= artist.id %>"><%= artist.name %></div>
+                    <% }); %>
+                </div>
+            </script>
+        </div>
+
+        <div id="artist">
+            <div id="artist-info" data-id="<%= artist.id %>">
+                <script id="template-artist" type="text/template">
+                    <h1 class="artist-name"><%= artist.name %></h1>
+                    <img src="<%= artist.images.shift().url %>" alt="" class="artist-img">
+                    <h4>Genres</h4>
+                    <% if (artist.genres < 1 ) { %>
+                    <p>Er zijn geen genres gekoppeld aan deze artiest in Spotify</p>
+                    <% } %>
+                    <ul class="genre-list">
+                        <% _.each(artist.genres, function(genre) { %>
+                        <li class="genre-item"><%= genre %></li>
+                        <% }); %>
+                    </ul>
+                </script>
+            </div>
+            <div id="top-tracks">
+                <script id="template-top-tracks" type="text/template">
+                    <h4>Top Tracks</h4>
+                    <% _.each(tracks, function(track){ %>
+                    <div class="track" data-id="<%= track.id %>" data-preview="<%= track.preview_url %>">&#9658; <%= track.name
+                        %>
+                    </div>
+                    <% }); %>
+                </script>
+            </div>
+            <div id="related-artists">
+                <script id="template-related" type="text/template">
+                    <h4>Related Artists</h4>
+                    <% _.each(artists, function(artist){ %>
+                    <div class="artist" data-id="<%= artist.id %>"><%= artist.name %></div>
+                    <% }); %>
+                </script>
+            </div>
+        </div>
     </div>
-</div>
+</main>
+
 <script src="/spotifinder/dist/bundle.js" type="text/javascript"></script>
 </body>
 </html>

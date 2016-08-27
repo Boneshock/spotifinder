@@ -38,7 +38,7 @@ const Artist = View.extend({
     },
 
     /**
-     * Success Handler will add HTML of searches to this $el
+     * Success Handler will add HTML of search to this $el
      *
      * @param model
      */

@@ -1,6 +1,7 @@
 import {View} from 'backbone';
 import _ from 'underscore';
 import ArtistsSearchRouter from '../routers/ArtistsSearchRouter';
+import $ from 'jquery';
 
 /**
  * Object representing the ArtistForm element
@@ -34,15 +35,20 @@ const ArtistForm = View.extend({
     {
         e.preventDefault();
 
-        //Get target the retrieve data properties
+        //Get target to retrieve data properties
         let target = e.currentTarget;
         let url = 'search/' + target.dataset['type'] + '/' + target.dataset['query'];
 
         //Use trigger & replace to update URL and make the router listen to change
         this.router.navigate(url, {trigger: true, replace: true});
     },
+
     submitHandler: function(e) {
         e.preventDefault();
+
+        //Get result element and show it
+        let resultshtml = $('#search-results');
+        resultshtml.show();
 
         let queryValue = document.getElementById("query").value;
         let url = 'search/' + 'artist' + '/' + queryValue;
