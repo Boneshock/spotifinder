@@ -6,6 +6,7 @@ import {Model} from 'backbone';
  * @constructor
  */
 const Artist = Model.extend({
+    url: 'https://api.spotify.com/v1/artists/'
 });
 
 export default Artist;

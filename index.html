@@ -24,7 +24,14 @@
         </script>
     </div>
 
-    <div id="artist"></div>
+    <div id="artist">
+        <script id="template-artist" type="text/template">
+            <div class="artist-info" data-id="<%= artist.id %>">
+                <img src="<%= artist.images.pop().url %>" alt="" class="artist-img">
+                <div class="artist-name"><%= artist.name %></div>
+            </div>
+        </script>
+    </div>
 </div>
 <script src="/spotifinder/dist/bundle.js" type="text/javascript"></script>
 </body>

@@ -8,12 +8,14 @@ import ArtistsSearchRouter from '../routers/ArtistsSearchRouter';
  * @constructor
  */
 const Artist = View.extend({
-    templateMatches: '',
-    templateError: '',
+    templateArtist: '',
     router: null,
 
     initialize: function ()
     {
+        //Set templates to use later on
+        this.templateArtist = _.template(this.$('#template-artist').html());
+
         //Listen to global events for change of new club
         App.events.on('getArtist', this.loadSearchResults, this);
 
@@ -28,24 +30,22 @@ const Artist = View.extend({
      */
     loadSearchResults: function (data)
     {
-        console.log("ARTIST!!!");
-        this.collection.fetch({
-            success: (collection) => this.loadSearchSuccessHandler(collection),
+        this.model.fetch({
+            success: (model) => this.loadSearchSuccessHandler(model),
             error: (collection, response) => this.loadSearchErrorHandler(collection, response),
-            url: this.collection.url + data.id
+            url: this.model.url + data.id
         });
     },
 
     /**
      * Success Handler will add HTML of searches to this $el
      *
-     * @param collection
+     * @param model
      */
-    loadSearchSuccessHandler: function (collection)
+    loadSearchSuccessHandler: function (model)
     {
-        let data = Object.create(collection.toJSON());
-        let artists = data[0].artists.items;
-        this.$el.html(this.templateMatches({artists: artists}));
+        let artist = Object.create(model.toJSON());
+        this.$el.html(this.templateArtist({artist: artist}));
     },
 
     /**
